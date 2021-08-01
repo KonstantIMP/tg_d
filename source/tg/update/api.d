@@ -35,14 +35,63 @@ mixin template UpdateBotApi () {
         request["limit"] = limit;
         request["timeout"] = timeout;
 
-        if (allowed !is null) {
-            request["allowed_updates"] = parseJSON("[]");
-            foreach (update; allowed) {
-                request["allowed_updates"] ~= update;
-            }
-        }
+        if (allowed !is null)
+            request["allowed_updates"] = allowed;
 
         TelegramVariant variantResult = execute!(TelegramVariant)("getUpdates", request);
         return toTelegram!(TelegramUpdate)(variantResult.getAsJson());
+    }
+
+    /** 
+     * Use this method to get current webhook status
+     * Returns: On success, returns a WebhookInfo object.
+     */
+    public TelegramWebhookInfo getWebhookInfo () {
+        return execute!TelegramWebhookInfo("getWebhookInfo");
+    }
+
+    /** 
+     * Use this method to specify a url and receive incoming updates via an outgoing webhook
+     * Params:
+     *   url = HTTPS url to send updates to
+     *   certificate = Upload your public key certificate so that the root certificate in use can be checked
+     *   ip = The fixed IP address which will be used to send webhook requests instead of the IP address resolved through DNS
+     *   max = Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery, 1-100
+     *   allowed = A JSON-serialized list of the update types you want your bot to receive
+     *   drop = Pass True to drop all pending updates
+     * Returns: Returns True on success
+     */
+    public bool setWebhook (string url,
+                            TelegramInputFile certificate = null,
+                            string ip = "",
+                            ulong max = 40,
+                            string [] allowed = null,
+                            bool drop = false) {
+        JSONValue request = parseJSON("{}");
+
+        if (url == "") throw new TelegramException ("Incorrect \'url\' : it is empty");
+        if (max < 1 || max > 40) throw new TelegramException ("Incorrect \'max_connections\' : it should be from 1 to 40");
+
+        request["url"] = url;
+
+        if (certificate !is null) request["certificate"] = certificate.getAsJson();
+        if (ip != "") request["ip_address"] = ip;
+        request["max_connections"] = max;
+        if (allowed !is null) request["allowed_updates"] = allowed;
+        request["drop_pending_updates"] = drop;
+
+        return execute("setWebhook", request).boolean();
+    }
+
+    /** 
+     * Use this method to remove webhook integration if you decide to switch back to getUpdates.
+     * Params:
+     *   drop = Pass True to drop all pending updates 
+     * Returns: Returns True on success.
+     */
+    public bool deleteWebhook (bool drop = false) {
+        JSONValue request = parseJSON("{}");
+        request["drop_pending_updates	"] = drop;
+        return execute("deleteWebhook", request).boolean();
     }
 }
