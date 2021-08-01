@@ -6,7 +6,7 @@
 module tg.bot;
 
 /** Import used classes */
-import tg.core.exception, tg.core.type, tg.core.array;
+import tg.core.exception, tg.core.type, tg.core.array, tg.core.format;
 import tg.type, tg.core.api;
 import tg.update.api;
 
@@ -28,6 +28,7 @@ class TelegramBot {
      */
     public this (string botAPI, string addr = "https://api.telegram.org") {
         botApi = botAPI; botAddr = addr; botRq = Request ();
+        me = getMe();
     }
 
     /** 
@@ -87,4 +88,12 @@ class TelegramBot {
      * Object for request executing
      */
     private Request botRq;
+
+    /** This bot */
+    private TelegramUser me;
+    /** 
+     * Getter for current bot (as TelegramUser)
+     * Returns: Current bot
+     */
+    @property TelegramUser bot () { return me; }
 }
