@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/tg_d
+tg_d.so
+tg_d.dylib
+tg_d.dll
+tg_d.a
+tg_d.lib
+tg_d-test-*
+*.exe
+*.o
+*.obj
+*.lst

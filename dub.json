@@ -1,0 +1,15 @@
+{
+	"authors": [
+		"KonstantIMP"
+	],
+	"copyright": "Copyright © 2021, KonstantIMP",
+	"dependencies": {
+		"requests": "~>2.0.0"
+	},
+	"importPaths": [
+		"source/"
+	],
+	"description": "A library for creating Telegram bots",
+	"license": "proprietary",
+	"name": "tg_d"
+}
