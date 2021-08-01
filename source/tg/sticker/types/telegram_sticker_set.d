@@ -3,7 +3,7 @@
  */
 module tg.sticker.types.telegram_sticker_set;
 
-import tg.core.type, tg.core.exception;
+import tg.core.type, tg.core.exception, tg.core.array;
 import std.json, tg.type;
 
 /**
@@ -39,7 +39,7 @@ class TelegramStickerSet : TelegramType {
         _contains_masks = data["contains_masks"].boolean();
 
         if ( "stickers" !in data ) throw new TelegramException("Could not find reqired entry : stickers");
-        _stickers = new TelegramSticker(data["stickers"]);
+        _stickers = toTelegram!TelegramSticker(data["stickers"]);
 
         if ( "thumb" in data )
         _thumb = new TelegramPhotoSize(data["thumb"]);
@@ -120,18 +120,18 @@ class TelegramStickerSet : TelegramType {
     @property bool containsMasks ( bool containsMasksNew ) { return _contains_masks = containsMasksNew; }
 
     /** List of all set stickers */
-    private TelegramSticker _stickers;
+    private TelegramSticker[] _stickers;
     /**
      * Getter for '_stickers'
      * Returns: Current value of '_stickers'
      */
-    @property TelegramSticker stickers () { return _stickers; }
+    @property TelegramSticker[] stickers () { return _stickers; }
     /**
      * Setter for '_stickers'
      * Params: stickersNew = New value of '_stickers'
      * Returns: New value of '_stickers'
      */
-    @property TelegramSticker stickers ( TelegramSticker stickersNew ) { return _stickers = stickersNew; }
+    @property TelegramSticker[] stickers ( TelegramSticker[] stickersNew ) { return _stickers = stickersNew; }
 
     /** <em>Optional</em>. Sticker set thumbnail in the .WEBP or .TGS format */
     private TelegramPhotoSize _thumb;

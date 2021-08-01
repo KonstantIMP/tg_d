@@ -3,7 +3,7 @@
  */
 module tg.types.telegram_inline_keyboard_markup;
 
-import tg.core.type, tg.core.exception;
+import tg.core.type, tg.core.exception, tg.core.array;
 import std.json, tg.type;
 
 /**
@@ -22,7 +22,7 @@ class TelegramInlineKeyboardMarkup : TelegramType {
 
     override public void setFromJson (JSONValue data) {
         if ( "inline_keyboard" !in data ) throw new TelegramException("Could not find reqired entry : inline_keyboard");
-        _inline_keyboard = new TelegramInlineKeyboardButton(data["inline_keyboard"]);
+        _inline_keyboard = toTelegramMatrix!TelegramInlineKeyboardButton(data["inline_keyboard"]);
     }
 
     override public JSONValue getAsJson () {
@@ -34,17 +34,17 @@ class TelegramInlineKeyboardMarkup : TelegramType {
     }
 
     /** Array of button rows, each represented by an Array of InlineKeyboardButton objects */
-    private TelegramInlineKeyboardButton _inline_keyboard;
+    private TelegramInlineKeyboardButton[][] _inline_keyboard;
     /**
      * Getter for '_inline_keyboard'
      * Returns: Current value of '_inline_keyboard'
      */
-    @property TelegramInlineKeyboardButton inlineKeyboard () { return _inline_keyboard; }
+    @property TelegramInlineKeyboardButton[][] inlineKeyboard () { return _inline_keyboard; }
     /**
      * Setter for '_inline_keyboard'
      * Params: inlineKeyboardNew = New value of '_inline_keyboard'
      * Returns: New value of '_inline_keyboard'
      */
-    @property TelegramInlineKeyboardButton inlineKeyboard ( TelegramInlineKeyboardButton inlineKeyboardNew ) { return _inline_keyboard = inlineKeyboardNew; }
+    @property TelegramInlineKeyboardButton[][] inlineKeyboard ( TelegramInlineKeyboardButton[][] inlineKeyboardNew ) { return _inline_keyboard = inlineKeyboardNew; }
 }
 

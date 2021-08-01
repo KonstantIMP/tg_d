@@ -3,7 +3,7 @@
  */
 module tg.passport.types.telegram_encrypted_passport_element;
 
-import tg.core.type, tg.core.exception;
+import tg.core.type, tg.core.exception, tg.core.array;
 import std.json, tg.type;
 
 /**
@@ -43,7 +43,7 @@ class TelegramEncryptedPassportElement : TelegramType {
         _email = data["email"].str();
 
         if ( "files" in data )
-        _files = new TelegramPassportFile(data["files"]);
+        _files = toTelegram!TelegramPassportFile(data["files"]);
 
         if ( "front_side" in data )
         _front_side = new TelegramPassportFile(data["front_side"]);
@@ -55,7 +55,7 @@ class TelegramEncryptedPassportElement : TelegramType {
         _selfie = new TelegramPassportFile(data["selfie"]);
 
         if ( "translation" in data )
-        _translation = new TelegramPassportFile(data["translation"]);
+        _translation = toTelegram!TelegramPassportFile(data["translation"]);
 
         if ( "hash" !in data ) throw new TelegramException("Could not find reqired entry : hash");
         _hash = data["hash"].str();
@@ -144,18 +144,18 @@ class TelegramEncryptedPassportElement : TelegramType {
     @property string email ( string emailNew ) { return _email = emailNew; }
 
     /** <em>Optional</em>. Array of encrypted files with documents provided by the user, available for &#8220;utility_bill&#8221;, &#8220;bank_statement&#8221;, &#8220;rental_agreement&#8221;, &#8220;passport_registration&#8221; and &#8220;temporary_registration&#8221; types. Files can be decrypted and verified using the accompanying EncryptedCredentials. */
-    private TelegramPassportFile _files;
+    private TelegramPassportFile[] _files;
     /**
      * Getter for '_files'
      * Returns: Current value of '_files'
      */
-    @property TelegramPassportFile files () { return _files; }
+    @property TelegramPassportFile[] files () { return _files; }
     /**
      * Setter for '_files'
      * Params: filesNew = New value of '_files'
      * Returns: New value of '_files'
      */
-    @property TelegramPassportFile files ( TelegramPassportFile filesNew ) { return _files = filesNew; }
+    @property TelegramPassportFile[] files ( TelegramPassportFile[] filesNew ) { return _files = filesNew; }
 
     /** <em>Optional</em>. Encrypted file with the front side of the document, provided by the user. Available for &#8220;passport&#8221;, &#8220;driver_license&#8221;, &#8220;identity_card&#8221; and &#8220;internal_passport&#8221;. The file can be decrypted and verified using the accompanying EncryptedCredentials. */
     private TelegramPassportFile _front_side;
@@ -200,18 +200,18 @@ class TelegramEncryptedPassportElement : TelegramType {
     @property TelegramPassportFile selfie ( TelegramPassportFile selfieNew ) { return _selfie = selfieNew; }
 
     /** <em>Optional</em>. Array of encrypted files with translated versions of documents provided by the user. Available if requested for &#8220;passport&#8221;, &#8220;driver_license&#8221;, &#8220;identity_card&#8221;, &#8220;internal_passport&#8221;, &#8220;utility_bill&#8221;, &#8220;bank_statement&#8221;, &#8220;rental_agreement&#8221;, &#8220;passport_registration&#8221; and &#8220;temporary_registration&#8221; types. Files can be decrypted and verified using the accompanying EncryptedCredentials. */
-    private TelegramPassportFile _translation;
+    private TelegramPassportFile[] _translation;
     /**
      * Getter for '_translation'
      * Returns: Current value of '_translation'
      */
-    @property TelegramPassportFile translation () { return _translation; }
+    @property TelegramPassportFile[] translation () { return _translation; }
     /**
      * Setter for '_translation'
      * Params: translationNew = New value of '_translation'
      * Returns: New value of '_translation'
      */
-    @property TelegramPassportFile translation ( TelegramPassportFile translationNew ) { return _translation = translationNew; }
+    @property TelegramPassportFile[] translation ( TelegramPassportFile[] translationNew ) { return _translation = translationNew; }
 
     /** Base64-encoded element hash for using in PassportElementErrorUnspecified */
     private string _hash;

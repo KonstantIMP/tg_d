@@ -3,7 +3,7 @@
  */
 module tg.inline.types.telegram_input_text_message_content;
 
-import tg.core.type, tg.core.exception;
+import tg.core.type, tg.core.exception, tg.core.array;
 import std.json, tg.type;
 
 /**
@@ -31,7 +31,7 @@ class TelegramInputTextMessageContent : TelegramType {
         _parse_mode = data["parse_mode"].str();
 
         if ( "entities" in data )
-        _entities = new TelegramMessageEntity(data["entities"]);
+        _entities = toTelegram!TelegramMessageEntity(data["entities"]);
 
         if ( "disable_web_page_preview" in data )
         _disable_web_page_preview = data["disable_web_page_preview"].boolean();
@@ -80,18 +80,18 @@ class TelegramInputTextMessageContent : TelegramType {
     @property string parseMode ( string parseModeNew ) { return _parse_mode = parseModeNew; }
 
     /** <em>Optional</em>. List of special entities that appear in message text, which can be specified instead of <em>parse_mode</em> */
-    private TelegramMessageEntity _entities;
+    private TelegramMessageEntity[] _entities;
     /**
      * Getter for '_entities'
      * Returns: Current value of '_entities'
      */
-    @property TelegramMessageEntity entities () { return _entities; }
+    @property TelegramMessageEntity[] entities () { return _entities; }
     /**
      * Setter for '_entities'
      * Params: entitiesNew = New value of '_entities'
      * Returns: New value of '_entities'
      */
-    @property TelegramMessageEntity entities ( TelegramMessageEntity entitiesNew ) { return _entities = entitiesNew; }
+    @property TelegramMessageEntity[] entities ( TelegramMessageEntity[] entitiesNew ) { return _entities = entitiesNew; }
 
     /** <em>Optional</em>. Disables link previews for links in the sent message */
     private bool _disable_web_page_preview;

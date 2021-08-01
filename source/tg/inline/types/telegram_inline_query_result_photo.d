@@ -3,7 +3,7 @@
  */
 module tg.inline.types.telegram_inline_query_result_photo;
 
-import tg.core.type, tg.core.exception;
+import tg.core.type, tg.core.exception, tg.core.array;
 import std.json, tg.type;
 
 /**
@@ -64,7 +64,7 @@ class TelegramInlineQueryResultPhoto : TelegramType {
         _parse_mode = data["parse_mode"].str();
 
         if ( "caption_entities" in data )
-        _caption_entities = new TelegramMessageEntity(data["caption_entities"]);
+        _caption_entities = toTelegram!TelegramMessageEntity(data["caption_entities"]);
 
         if ( "reply_markup" in data )
         _reply_markup = new TelegramInlineKeyboardMarkup(data["reply_markup"]);
@@ -246,18 +246,18 @@ class TelegramInlineQueryResultPhoto : TelegramType {
     @property string parseMode ( string parseModeNew ) { return _parse_mode = parseModeNew; }
 
     /** <em>Optional</em>. List of special entities that appear in the caption, which can be specified instead of <em>parse_mode</em> */
-    private TelegramMessageEntity _caption_entities;
+    private TelegramMessageEntity[] _caption_entities;
     /**
      * Getter for '_caption_entities'
      * Returns: Current value of '_caption_entities'
      */
-    @property TelegramMessageEntity captionEntities () { return _caption_entities; }
+    @property TelegramMessageEntity[] captionEntities () { return _caption_entities; }
     /**
      * Setter for '_caption_entities'
      * Params: captionEntitiesNew = New value of '_caption_entities'
      * Returns: New value of '_caption_entities'
      */
-    @property TelegramMessageEntity captionEntities ( TelegramMessageEntity captionEntitiesNew ) { return _caption_entities = captionEntitiesNew; }
+    @property TelegramMessageEntity[] captionEntities ( TelegramMessageEntity[] captionEntitiesNew ) { return _caption_entities = captionEntitiesNew; }
 
     /** <em>Optional</em>. Inline keyboard attached to the message */
     private TelegramInlineKeyboardMarkup _reply_markup;

@@ -3,7 +3,7 @@
  */
 module tg.types.telegram_reply_keyboard_markup;
 
-import tg.core.type, tg.core.exception;
+import tg.core.type, tg.core.exception, tg.core.array;
 import std.json, tg.type;
 
 /**
@@ -26,7 +26,7 @@ class TelegramReplyKeyboardMarkup : TelegramType {
 
     override public void setFromJson (JSONValue data) {
         if ( "keyboard" !in data ) throw new TelegramException("Could not find reqired entry : keyboard");
-        _keyboard = new TelegramKeyboardButton(data["keyboard"]);
+        _keyboard = toTelegramMatrix!TelegramKeyboardButton(data["keyboard"]);
 
         if ( "resize_keyboard" in data )
         _resize_keyboard = data["resize_keyboard"].boolean();
@@ -58,18 +58,18 @@ class TelegramReplyKeyboardMarkup : TelegramType {
     }
 
     /** Array of button rows, each represented by an Array of KeyboardButton objects */
-    private TelegramKeyboardButton _keyboard;
+    private TelegramKeyboardButton[][] _keyboard;
     /**
      * Getter for '_keyboard'
      * Returns: Current value of '_keyboard'
      */
-    @property TelegramKeyboardButton keyboard () { return _keyboard; }
+    @property TelegramKeyboardButton[][] keyboard () { return _keyboard; }
     /**
      * Setter for '_keyboard'
      * Params: keyboardNew = New value of '_keyboard'
      * Returns: New value of '_keyboard'
      */
-    @property TelegramKeyboardButton keyboard ( TelegramKeyboardButton keyboardNew ) { return _keyboard = keyboardNew; }
+    @property TelegramKeyboardButton[][] keyboard ( TelegramKeyboardButton[][] keyboardNew ) { return _keyboard = keyboardNew; }
 
     /** <em>Optional</em>. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller if there are just two rows of buttons). Defaults to <em>false</em>, in which case the custom keyboard is always of the same height as the app's standard keyboard. */
     private bool _resize_keyboard;

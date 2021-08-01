@@ -3,7 +3,7 @@
  */
 module tg.types.telegram_voice_chat_participants_invited;
 
-import tg.core.type, tg.core.exception;
+import tg.core.type, tg.core.exception, tg.core.array;
 import std.json, tg.type;
 
 /**
@@ -22,7 +22,7 @@ class TelegramVoiceChatParticipantsInvited : TelegramType {
 
     override public void setFromJson (JSONValue data) {
         if ( "users" in data )
-        _users = new TelegramUser(data["users"]);
+        _users = toTelegram!TelegramUser(data["users"]);
     }
 
     override public JSONValue getAsJson () {
@@ -34,17 +34,17 @@ class TelegramVoiceChatParticipantsInvited : TelegramType {
     }
 
     /** <em>Optional</em>. New members that were invited to the voice chat */
-    private TelegramUser _users;
+    private TelegramUser[] _users;
     /**
      * Getter for '_users'
      * Returns: Current value of '_users'
      */
-    @property TelegramUser users () { return _users; }
+    @property TelegramUser[] users () { return _users; }
     /**
      * Setter for '_users'
      * Params: usersNew = New value of '_users'
      * Returns: New value of '_users'
      */
-    @property TelegramUser users ( TelegramUser usersNew ) { return _users = usersNew; }
+    @property TelegramUser[] users ( TelegramUser[] usersNew ) { return _users = usersNew; }
 }
 

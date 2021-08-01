@@ -3,7 +3,7 @@
  */
 module tg.payment.types.telegram_shipping_option;
 
-import tg.core.type, tg.core.exception;
+import tg.core.type, tg.core.exception, tg.core.array;
 import std.json, tg.type;
 
 /**
@@ -30,7 +30,7 @@ class TelegramShippingOption : TelegramType {
         _title = data["title"].str();
 
         if ( "prices" !in data ) throw new TelegramException("Could not find reqired entry : prices");
-        _prices = new TelegramLabeledPrice(data["prices"]);
+        _prices = toTelegram!TelegramLabeledPrice(data["prices"]);
     }
 
     override public JSONValue getAsJson () {
@@ -74,17 +74,17 @@ class TelegramShippingOption : TelegramType {
     @property string title ( string titleNew ) { return _title = titleNew; }
 
     /** List of price portions */
-    private TelegramLabeledPrice _prices;
+    private TelegramLabeledPrice[] _prices;
     /**
      * Getter for '_prices'
      * Returns: Current value of '_prices'
      */
-    @property TelegramLabeledPrice prices () { return _prices; }
+    @property TelegramLabeledPrice[] prices () { return _prices; }
     /**
      * Setter for '_prices'
      * Params: pricesNew = New value of '_prices'
      * Returns: New value of '_prices'
      */
-    @property TelegramLabeledPrice prices ( TelegramLabeledPrice pricesNew ) { return _prices = pricesNew; }
+    @property TelegramLabeledPrice[] prices ( TelegramLabeledPrice[] pricesNew ) { return _prices = pricesNew; }
 }
 

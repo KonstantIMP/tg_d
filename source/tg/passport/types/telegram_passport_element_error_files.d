@@ -3,7 +3,7 @@
  */
 module tg.passport.types.telegram_passport_element_error_files;
 
-import tg.core.type, tg.core.exception;
+import tg.core.type, tg.core.exception, tg.core.array;
 import std.json, tg.type;
 
 /**
@@ -16,7 +16,7 @@ class TelegramPassportElementErrorFiles : TelegramType {
     nothrow pure public this () @safe {
         _source = "";
         _type = "";
-        _file_hashes = "";
+        _file_hashes = null;
         _message = "";
     }
 
@@ -31,7 +31,7 @@ class TelegramPassportElementErrorFiles : TelegramType {
         _type = data["type"].str();
 
         if ( "file_hashes" !in data ) throw new TelegramException("Could not find reqired entry : file_hashes");
-        _file_hashes = data["file_hashes"].str();
+        _file_hashes = toBase!string(data["file_hashes"]);
 
         if ( "message" !in data ) throw new TelegramException("Could not find reqired entry : message");
         _message = data["message"].str();
@@ -80,18 +80,18 @@ class TelegramPassportElementErrorFiles : TelegramType {
     @property string type ( string typeNew ) { return _type = typeNew; }
 
     /** List of base64-encoded file hashes */
-    private string _file_hashes;
+    private string[] _file_hashes;
     /**
      * Getter for '_file_hashes'
      * Returns: Current value of '_file_hashes'
      */
-    @property string fileHashes () { return _file_hashes; }
+    @property string[] fileHashes () { return _file_hashes; }
     /**
      * Setter for '_file_hashes'
      * Params: fileHashesNew = New value of '_file_hashes'
      * Returns: New value of '_file_hashes'
      */
-    @property string fileHashes ( string fileHashesNew ) { return _file_hashes = fileHashesNew; }
+    @property string[] fileHashes ( string[] fileHashesNew ) { return _file_hashes = fileHashesNew; }
 
     /** Error message */
     private string _message;

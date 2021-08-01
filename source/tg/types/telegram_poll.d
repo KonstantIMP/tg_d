@@ -3,7 +3,7 @@
  */
 module tg.types.telegram_poll;
 
-import tg.core.type, tg.core.exception;
+import tg.core.type, tg.core.exception, tg.core.array;
 import std.json, tg.type;
 
 /**
@@ -40,7 +40,7 @@ class TelegramPoll : TelegramType {
         _question = data["question"].str();
 
         if ( "options" !in data ) throw new TelegramException("Could not find reqired entry : options");
-        _options = new TelegramPollOption(data["options"]);
+        _options = toTelegram!TelegramPollOption(data["options"]);
 
         if ( "total_voter_count" !in data ) throw new TelegramException("Could not find reqired entry : total_voter_count");
         _total_voter_count = data["total_voter_count"].integer();
@@ -64,7 +64,7 @@ class TelegramPoll : TelegramType {
         _explanation = data["explanation"].str();
 
         if ( "explanation_entities" in data )
-        _explanation_entities = new TelegramMessageEntity(data["explanation_entities"]);
+        _explanation_entities = toTelegram!TelegramMessageEntity(data["explanation_entities"]);
 
         if ( "open_period" in data )
         _open_period = data["open_period"].integer();
@@ -134,18 +134,18 @@ class TelegramPoll : TelegramType {
     @property string question ( string questionNew ) { return _question = questionNew; }
 
     /** List of poll options */
-    private TelegramPollOption _options;
+    private TelegramPollOption[] _options;
     /**
      * Getter for '_options'
      * Returns: Current value of '_options'
      */
-    @property TelegramPollOption options () { return _options; }
+    @property TelegramPollOption[] options () { return _options; }
     /**
      * Setter for '_options'
      * Params: optionsNew = New value of '_options'
      * Returns: New value of '_options'
      */
-    @property TelegramPollOption options ( TelegramPollOption optionsNew ) { return _options = optionsNew; }
+    @property TelegramPollOption[] options ( TelegramPollOption[] optionsNew ) { return _options = optionsNew; }
 
     /** Total number of users that voted in the poll */
     private ulong _total_voter_count;
@@ -246,18 +246,18 @@ class TelegramPoll : TelegramType {
     @property string explanation ( string explanationNew ) { return _explanation = explanationNew; }
 
     /** <em>Optional</em>. Special entities like usernames, URLs, bot commands, etc. that appear in the <em>explanation</em> */
-    private TelegramMessageEntity _explanation_entities;
+    private TelegramMessageEntity[] _explanation_entities;
     /**
      * Getter for '_explanation_entities'
      * Returns: Current value of '_explanation_entities'
      */
-    @property TelegramMessageEntity explanationEntities () { return _explanation_entities; }
+    @property TelegramMessageEntity[] explanationEntities () { return _explanation_entities; }
     /**
      * Setter for '_explanation_entities'
      * Params: explanationEntitiesNew = New value of '_explanation_entities'
      * Returns: New value of '_explanation_entities'
      */
-    @property TelegramMessageEntity explanationEntities ( TelegramMessageEntity explanationEntitiesNew ) { return _explanation_entities = explanationEntitiesNew; }
+    @property TelegramMessageEntity[] explanationEntities ( TelegramMessageEntity[] explanationEntitiesNew ) { return _explanation_entities = explanationEntitiesNew; }
 
     /** <em>Optional</em>. Amount of time in seconds the poll will be active after creation */
     private ulong _open_period;

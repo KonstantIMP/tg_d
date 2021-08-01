@@ -3,7 +3,7 @@
  */
 module tg.types.telegram_user_profile_photos;
 
-import tg.core.type, tg.core.exception;
+import tg.core.type, tg.core.exception, tg.core.array;
 import std.json, tg.type;
 
 /**
@@ -26,7 +26,7 @@ class TelegramUserProfilePhotos : TelegramType {
         _total_count = data["total_count"].integer();
 
         if ( "photos" !in data ) throw new TelegramException("Could not find reqired entry : photos");
-        _photos = new TelegramPhotoSize(data["photos"]);
+        _photos = toTelegramMatrix!TelegramPhotoSize(data["photos"]);
     }
 
     override public JSONValue getAsJson () {
@@ -54,17 +54,17 @@ class TelegramUserProfilePhotos : TelegramType {
     @property ulong totalCount ( ulong totalCountNew ) { return _total_count = totalCountNew; }
 
     /** Requested profile pictures (in up to 4 sizes each) */
-    private TelegramPhotoSize _photos;
+    private TelegramPhotoSize[][] _photos;
     /**
      * Getter for '_photos'
      * Returns: Current value of '_photos'
      */
-    @property TelegramPhotoSize photos () { return _photos; }
+    @property TelegramPhotoSize[][] photos () { return _photos; }
     /**
      * Setter for '_photos'
      * Params: photosNew = New value of '_photos'
      * Returns: New value of '_photos'
      */
-    @property TelegramPhotoSize photos ( TelegramPhotoSize photosNew ) { return _photos = photosNew; }
+    @property TelegramPhotoSize[][] photos ( TelegramPhotoSize[][] photosNew ) { return _photos = photosNew; }
 }
 

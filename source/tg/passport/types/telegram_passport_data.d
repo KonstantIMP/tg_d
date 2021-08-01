@@ -3,7 +3,7 @@
  */
 module tg.passport.types.telegram_passport_data;
 
-import tg.core.type, tg.core.exception;
+import tg.core.type, tg.core.exception, tg.core.array;
 import std.json, tg.type;
 
 /**
@@ -23,7 +23,7 @@ class TelegramPassportData : TelegramType {
 
     override public void setFromJson (JSONValue data) {
         if ( "data" !in data ) throw new TelegramException("Could not find reqired entry : data");
-        _data = new TelegramEncryptedPassportElement(data["data"]);
+        _data = toTelegram!TelegramEncryptedPassportElement(data["data"]);
 
         if ( "credentials" !in data ) throw new TelegramException("Could not find reqired entry : credentials");
         _credentials = new TelegramEncryptedCredentials(data["credentials"]);
@@ -40,18 +40,18 @@ class TelegramPassportData : TelegramType {
     }
 
     /** Array with information about documents and other Telegram Passport elements that was shared with the bot */
-    private TelegramEncryptedPassportElement _data;
+    private TelegramEncryptedPassportElement[] _data;
     /**
      * Getter for '_data'
      * Returns: Current value of '_data'
      */
-    @property TelegramEncryptedPassportElement data () { return _data; }
+    @property TelegramEncryptedPassportElement[] data () { return _data; }
     /**
      * Setter for '_data'
      * Params: dataNew = New value of '_data'
      * Returns: New value of '_data'
      */
-    @property TelegramEncryptedPassportElement data ( TelegramEncryptedPassportElement dataNew ) { return _data = dataNew; }
+    @property TelegramEncryptedPassportElement[] data ( TelegramEncryptedPassportElement[] dataNew ) { return _data = dataNew; }
 
     /** Encrypted credentials required to decrypt the data */
     private TelegramEncryptedCredentials _credentials;

@@ -3,7 +3,7 @@
  */
 module tg.types.telegram_message;
 
-import tg.core.type, tg.core.exception;
+import tg.core.type, tg.core.exception, tg.core.array;
 import std.json, tg.type;
 
 /**
@@ -128,7 +128,7 @@ class TelegramMessage : TelegramType {
         _text = data["text"].str();
 
         if ( "entities" in data )
-        _entities = new TelegramMessageEntity(data["entities"]);
+        _entities = toTelegram!TelegramMessageEntity(data["entities"]);
 
         if ( "animation" in data )
         _animation = new TelegramAnimation(data["animation"]);
@@ -140,7 +140,7 @@ class TelegramMessage : TelegramType {
         _document = new TelegramDocument(data["document"]);
 
         if ( "photo" in data )
-        _photo = new TelegramPhotoSize(data["photo"]);
+        _photo = toTelegram!TelegramPhotoSize(data["photo"]);
 
         if ( "sticker" in data )
         _sticker = new TelegramSticker(data["sticker"]);
@@ -158,7 +158,7 @@ class TelegramMessage : TelegramType {
         _caption = data["caption"].str();
 
         if ( "caption_entities" in data )
-        _caption_entities = new TelegramMessageEntity(data["caption_entities"]);
+        _caption_entities = toTelegram!TelegramMessageEntity(data["caption_entities"]);
 
         if ( "contact" in data )
         _contact = new TelegramContact(data["contact"]);
@@ -179,7 +179,7 @@ class TelegramMessage : TelegramType {
         _location = new TelegramLocation(data["location"]);
 
         if ( "new_chat_members" in data )
-        _new_chat_members = new TelegramUser(data["new_chat_members"]);
+        _new_chat_members = toTelegram!TelegramUser(data["new_chat_members"]);
 
         if ( "left_chat_member" in data )
         _left_chat_member = new TelegramUser(data["left_chat_member"]);
@@ -188,7 +188,7 @@ class TelegramMessage : TelegramType {
         _new_chat_title = data["new_chat_title"].str();
 
         if ( "new_chat_photo" in data )
-        _new_chat_photo = new TelegramPhotoSize(data["new_chat_photo"]);
+        _new_chat_photo = toTelegram!TelegramPhotoSize(data["new_chat_photo"]);
 
         if ( "delete_chat_photo" in data )
         _delete_chat_photo = data["delete_chat_photo"].boolean();
@@ -602,18 +602,18 @@ class TelegramMessage : TelegramType {
     @property string text ( string textNew ) { return _text = textNew; }
 
     /** <em>Optional</em>. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text */
-    private TelegramMessageEntity _entities;
+    private TelegramMessageEntity[] _entities;
     /**
      * Getter for '_entities'
      * Returns: Current value of '_entities'
      */
-    @property TelegramMessageEntity entities () { return _entities; }
+    @property TelegramMessageEntity[] entities () { return _entities; }
     /**
      * Setter for '_entities'
      * Params: entitiesNew = New value of '_entities'
      * Returns: New value of '_entities'
      */
-    @property TelegramMessageEntity entities ( TelegramMessageEntity entitiesNew ) { return _entities = entitiesNew; }
+    @property TelegramMessageEntity[] entities ( TelegramMessageEntity[] entitiesNew ) { return _entities = entitiesNew; }
 
     /** <em>Optional</em>. Message is an animation, information about the animation. For backward compatibility, when this field is set, the <em>document</em> field will also be set */
     private TelegramAnimation _animation;
@@ -658,18 +658,18 @@ class TelegramMessage : TelegramType {
     @property TelegramDocument document ( TelegramDocument documentNew ) { return _document = documentNew; }
 
     /** <em>Optional</em>. Message is a photo, available sizes of the photo */
-    private TelegramPhotoSize _photo;
+    private TelegramPhotoSize[] _photo;
     /**
      * Getter for '_photo'
      * Returns: Current value of '_photo'
      */
-    @property TelegramPhotoSize photo () { return _photo; }
+    @property TelegramPhotoSize[] photo () { return _photo; }
     /**
      * Setter for '_photo'
      * Params: photoNew = New value of '_photo'
      * Returns: New value of '_photo'
      */
-    @property TelegramPhotoSize photo ( TelegramPhotoSize photoNew ) { return _photo = photoNew; }
+    @property TelegramPhotoSize[] photo ( TelegramPhotoSize[] photoNew ) { return _photo = photoNew; }
 
     /** <em>Optional</em>. Message is a sticker, information about the sticker */
     private TelegramSticker _sticker;
@@ -742,18 +742,18 @@ class TelegramMessage : TelegramType {
     @property string caption ( string captionNew ) { return _caption = captionNew; }
 
     /** <em>Optional</em>. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear in the caption */
-    private TelegramMessageEntity _caption_entities;
+    private TelegramMessageEntity[] _caption_entities;
     /**
      * Getter for '_caption_entities'
      * Returns: Current value of '_caption_entities'
      */
-    @property TelegramMessageEntity captionEntities () { return _caption_entities; }
+    @property TelegramMessageEntity[] captionEntities () { return _caption_entities; }
     /**
      * Setter for '_caption_entities'
      * Params: captionEntitiesNew = New value of '_caption_entities'
      * Returns: New value of '_caption_entities'
      */
-    @property TelegramMessageEntity captionEntities ( TelegramMessageEntity captionEntitiesNew ) { return _caption_entities = captionEntitiesNew; }
+    @property TelegramMessageEntity[] captionEntities ( TelegramMessageEntity[] captionEntitiesNew ) { return _caption_entities = captionEntitiesNew; }
 
     /** <em>Optional</em>. Message is a shared contact, information about the contact */
     private TelegramContact _contact;
@@ -840,18 +840,18 @@ class TelegramMessage : TelegramType {
     @property TelegramLocation location ( TelegramLocation locationNew ) { return _location = locationNew; }
 
     /** <em>Optional</em>. New members that were added to the group or supergroup and information about them (the bot itself may be one of these members) */
-    private TelegramUser _new_chat_members;
+    private TelegramUser[] _new_chat_members;
     /**
      * Getter for '_new_chat_members'
      * Returns: Current value of '_new_chat_members'
      */
-    @property TelegramUser newChatMembers () { return _new_chat_members; }
+    @property TelegramUser[] newChatMembers () { return _new_chat_members; }
     /**
      * Setter for '_new_chat_members'
      * Params: newChatMembersNew = New value of '_new_chat_members'
      * Returns: New value of '_new_chat_members'
      */
-    @property TelegramUser newChatMembers ( TelegramUser newChatMembersNew ) { return _new_chat_members = newChatMembersNew; }
+    @property TelegramUser[] newChatMembers ( TelegramUser[] newChatMembersNew ) { return _new_chat_members = newChatMembersNew; }
 
     /** <em>Optional</em>. A member was removed from the group, information about them (this member may be the bot itself) */
     private TelegramUser _left_chat_member;
@@ -882,18 +882,18 @@ class TelegramMessage : TelegramType {
     @property string newChatTitle ( string newChatTitleNew ) { return _new_chat_title = newChatTitleNew; }
 
     /** <em>Optional</em>. A chat photo was change to this value */
-    private TelegramPhotoSize _new_chat_photo;
+    private TelegramPhotoSize[] _new_chat_photo;
     /**
      * Getter for '_new_chat_photo'
      * Returns: Current value of '_new_chat_photo'
      */
-    @property TelegramPhotoSize newChatPhoto () { return _new_chat_photo; }
+    @property TelegramPhotoSize[] newChatPhoto () { return _new_chat_photo; }
     /**
      * Setter for '_new_chat_photo'
      * Params: newChatPhotoNew = New value of '_new_chat_photo'
      * Returns: New value of '_new_chat_photo'
      */
-    @property TelegramPhotoSize newChatPhoto ( TelegramPhotoSize newChatPhotoNew ) { return _new_chat_photo = newChatPhotoNew; }
+    @property TelegramPhotoSize[] newChatPhoto ( TelegramPhotoSize[] newChatPhotoNew ) { return _new_chat_photo = newChatPhotoNew; }
 
     /** <em>Optional</em>. Service message: the chat photo was deleted */
     private bool _delete_chat_photo;

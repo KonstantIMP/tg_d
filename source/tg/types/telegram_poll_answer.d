@@ -3,7 +3,7 @@
  */
 module tg.types.telegram_poll_answer;
 
-import tg.core.type, tg.core.exception;
+import tg.core.type, tg.core.exception, tg.core.array;
 import std.json, tg.type;
 
 /**
@@ -16,7 +16,7 @@ class TelegramPollAnswer : TelegramType {
     nothrow pure public this () @safe {
         _poll_id = "";
         _user = null;
-        _option_ids = 0;
+        _option_ids = null;
     }
 
     /** Add constructor with data init from response */
@@ -30,7 +30,7 @@ class TelegramPollAnswer : TelegramType {
         _user = new TelegramUser(data["user"]);
 
         if ( "option_ids" !in data ) throw new TelegramException("Could not find reqired entry : option_ids");
-        _option_ids = data["option_ids"].integer();
+        _option_ids = toBase!ulong(data["option_ids"]);
     }
 
     override public JSONValue getAsJson () {
@@ -74,17 +74,17 @@ class TelegramPollAnswer : TelegramType {
     @property TelegramUser user ( TelegramUser userNew ) { return _user = userNew; }
 
     /** 0-based identifiers of answer options, chosen by the user. May be empty if the user retracted their vote. */
-    private ulong _option_ids;
+    private ulong[] _option_ids;
     /**
      * Getter for '_option_ids'
      * Returns: Current value of '_option_ids'
      */
-    @property ulong optionIds () { return _option_ids; }
+    @property ulong[] optionIds () { return _option_ids; }
     /**
      * Setter for '_option_ids'
      * Params: optionIdsNew = New value of '_option_ids'
      * Returns: New value of '_option_ids'
      */
-    @property ulong optionIds ( ulong optionIdsNew ) { return _option_ids = optionIdsNew; }
+    @property ulong[] optionIds ( ulong[] optionIdsNew ) { return _option_ids = optionIdsNew; }
 }
 

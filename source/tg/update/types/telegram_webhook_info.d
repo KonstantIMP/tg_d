@@ -3,7 +3,7 @@
  */
 module tg.update.types.telegram_webhook_info;
 
-import tg.core.type, tg.core.exception;
+import tg.core.type, tg.core.exception, tg.core.array;
 import std.json, tg.type;
 
 /**
@@ -21,7 +21,7 @@ class TelegramWebhookInfo : TelegramType {
         _last_error_date = 0;
         _last_error_message = "";
         _max_connections = 0;
-        _allowed_updates = "";
+        _allowed_updates = null;
     }
 
     /** Add constructor with data init from response */
@@ -50,7 +50,7 @@ class TelegramWebhookInfo : TelegramType {
         _max_connections = data["max_connections"].integer();
 
         if ( "allowed_updates" in data )
-        _allowed_updates = data["allowed_updates"].str();
+        _allowed_updates = toBase!string(data["allowed_updates"]);
     }
 
     override public JSONValue getAsJson () {
@@ -70,7 +70,7 @@ class TelegramWebhookInfo : TelegramType {
 
         if ( _max_connections != 0 ) data["max_connections"] = _max_connections;
 
-        if ( _allowed_updates != "" ) data["allowed_updates"] = _allowed_updates;
+        if ( _allowed_updates !is null ) data["allowed_updates"] = _allowed_updates;
 
         return data;
     }
@@ -174,17 +174,17 @@ class TelegramWebhookInfo : TelegramType {
     @property ulong maxConnections ( ulong maxConnectionsNew ) { return _max_connections = maxConnectionsNew; }
 
     /** <em>Optional</em>. A list of update types the bot is subscribed to. Defaults to all update types except <em>chat_member</em> */
-    private string _allowed_updates;
+    private string[] _allowed_updates;
     /**
      * Getter for '_allowed_updates'
      * Returns: Current value of '_allowed_updates'
      */
-    @property string allowedUpdates () { return _allowed_updates; }
+    @property string[] allowedUpdates () { return _allowed_updates; }
     /**
      * Setter for '_allowed_updates'
      * Params: allowedUpdatesNew = New value of '_allowed_updates'
      * Returns: New value of '_allowed_updates'
      */
-    @property string allowedUpdates ( string allowedUpdatesNew ) { return _allowed_updates = allowedUpdatesNew; }
+    @property string[] allowedUpdates ( string[] allowedUpdatesNew ) { return _allowed_updates = allowedUpdatesNew; }
 }
 

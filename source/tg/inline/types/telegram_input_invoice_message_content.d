@@ -3,7 +3,7 @@
  */
 module tg.inline.types.telegram_input_invoice_message_content;
 
-import tg.core.type, tg.core.exception;
+import tg.core.type, tg.core.exception, tg.core.array;
 import std.json, tg.type;
 
 /**
@@ -21,7 +21,7 @@ class TelegramInputInvoiceMessageContent : TelegramType {
         _currency = "";
         _prices = null;
         _max_tip_amount = 0;
-        _suggested_tip_amounts = 0;
+        _suggested_tip_amounts = null;
         _provider_data = "";
         _photo_url = "";
         _photo_size = 0;
@@ -56,13 +56,13 @@ class TelegramInputInvoiceMessageContent : TelegramType {
         _currency = data["currency"].str();
 
         if ( "prices" !in data ) throw new TelegramException("Could not find reqired entry : prices");
-        _prices = new TelegramLabeledPrice(data["prices"]);
+        _prices = toTelegram!TelegramLabeledPrice(data["prices"]);
 
         if ( "max_tip_amount" in data )
         _max_tip_amount = data["max_tip_amount"].integer();
 
         if ( "suggested_tip_amounts" in data )
-        _suggested_tip_amounts = data["suggested_tip_amounts"].integer();
+        _suggested_tip_amounts = toBase!ulong(data["suggested_tip_amounts"]);
 
         if ( "provider_data" in data )
         _provider_data = data["provider_data"].str();
@@ -118,7 +118,7 @@ class TelegramInputInvoiceMessageContent : TelegramType {
 
         if ( _max_tip_amount != 0 ) data["max_tip_amount"] = _max_tip_amount;
 
-        if ( _suggested_tip_amounts != 0 ) data["suggested_tip_amounts"] = _suggested_tip_amounts;
+        if ( _suggested_tip_amounts !is null ) data["suggested_tip_amounts"] = _suggested_tip_amounts;
 
         if ( _provider_data != "" ) data["provider_data"] = _provider_data;
 
@@ -218,18 +218,18 @@ class TelegramInputInvoiceMessageContent : TelegramType {
     @property string currency ( string currencyNew ) { return _currency = currencyNew; }
 
     /** Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost, delivery tax, bonus, etc.) */
-    private TelegramLabeledPrice _prices;
+    private TelegramLabeledPrice[] _prices;
     /**
      * Getter for '_prices'
      * Returns: Current value of '_prices'
      */
-    @property TelegramLabeledPrice prices () { return _prices; }
+    @property TelegramLabeledPrice[] prices () { return _prices; }
     /**
      * Setter for '_prices'
      * Params: pricesNew = New value of '_prices'
      * Returns: New value of '_prices'
      */
-    @property TelegramLabeledPrice prices ( TelegramLabeledPrice pricesNew ) { return _prices = pricesNew; }
+    @property TelegramLabeledPrice[] prices ( TelegramLabeledPrice[] pricesNew ) { return _prices = pricesNew; }
 
     /** <em>Optional</em>. The maximum accepted amount for tips in the <em>smallest units</em> of the currency (integer, <strong>not</strong> float/double). For example, for a maximum tip of <code>US$ 1.45</code> pass <code>max_tip_amount = 145</code>. See the <em>exp</em> parameter in currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of currencies). Defaults to 0 */
     private ulong _max_tip_amount;
@@ -246,18 +246,18 @@ class TelegramInputInvoiceMessageContent : TelegramType {
     @property ulong maxTipAmount ( ulong maxTipAmountNew ) { return _max_tip_amount = maxTipAmountNew; }
 
     /** <em>Optional</em>. A JSON-serialized array of suggested amounts of tip in the <em>smallest units</em> of the currency (integer, <strong>not</strong> float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be positive, passed in a strictly increased order and must not exceed <em>max_tip_amount</em>. */
-    private ulong _suggested_tip_amounts;
+    private ulong[] _suggested_tip_amounts;
     /**
      * Getter for '_suggested_tip_amounts'
      * Returns: Current value of '_suggested_tip_amounts'
      */
-    @property ulong suggestedTipAmounts () { return _suggested_tip_amounts; }
+    @property ulong[] suggestedTipAmounts () { return _suggested_tip_amounts; }
     /**
      * Setter for '_suggested_tip_amounts'
      * Params: suggestedTipAmountsNew = New value of '_suggested_tip_amounts'
      * Returns: New value of '_suggested_tip_amounts'
      */
-    @property ulong suggestedTipAmounts ( ulong suggestedTipAmountsNew ) { return _suggested_tip_amounts = suggestedTipAmountsNew; }
+    @property ulong[] suggestedTipAmounts ( ulong[] suggestedTipAmountsNew ) { return _suggested_tip_amounts = suggestedTipAmountsNew; }
 
     /** <em>Optional</em>. A JSON-serialized object for data about the invoice, which will be shared with the payment provider. A detailed description of the required fields should be provided by the payment provider. */
     private string _provider_data;
