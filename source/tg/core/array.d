@@ -115,3 +115,4 @@ JSONValue getAsJson (T) (T [][] telegramType) {
 
     return result;
 }
+

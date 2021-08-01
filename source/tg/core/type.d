@@ -4,12 +4,11 @@
 module tg.core.type;
 
 import std.json : JSONValue, parseJSON;
-import core.stdc.stddef : nullptr_t;
 
 /**
  * Override getAsJSON for nullptr_t type
  */
-JSONValue getAsJSON (nullptr_t) { return parseJSON(""); }
+JSONValue getAsJson (typeof(null)) { return parseJSON(""); }
 
 /** 
  * Parent class for TelegramTypes

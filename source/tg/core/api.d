@@ -43,4 +43,29 @@ mixin template CoreBotApi () {
     public bool close () {
         return execute("close").boolean();
     }
+
+
+    public TelegramMessage sendMessage (T, U)  (T chat,
+                                                string text,
+                                                TextFormat parse = TextFormat.None,
+                                                TelegramMessageEntity [] entities = null,
+                                                bool disableWebPagePreview = false,
+                                                bool disableNotification = false,
+                                                ulong replyToMessageId = 0,
+                                                bool allowSendingWithoutReply = false,
+                                                U replyMarkup = null) if ((is (T == ulong) || is (T == string)) && (is (U == TelegramInlineKeyboardMarkup) || is (U == TelegramReplyKeyboardMarkup) || is (U == TelegramReplyKeyboardRemove) || is (U == TelegramForceReply) || is (U == typeof(null)))) {
+        JSONValue request = parseJSON("");
+
+        request["chat_id"] = chat;
+        request["text"] = text;
+        if (parse != TextFormat.None) request["parse_mode"] = parse;
+        if (entities !is null) request["entities"] = entities.getAsJson();
+        request["disable_web_page_preview"] = disableWebPagePreview;
+        request["disable_notification"] = disableNotification;
+        if (replyToMessageId) request["reply_to_message_id"] = replyToMessageId;
+        request["allow_sending_without_reply"] = allowSendingWithoutReply;
+        if (replyMarkup !is null) request["reply_markup"] = replyMarkup.getAsJson();
+
+        return execute!TelegramMessage("sendMessage", request);
+    }
 }

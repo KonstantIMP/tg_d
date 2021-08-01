@@ -11,5 +11,6 @@ module tg.core.format;
 enum TextFormat : string {
     MarkdownV2 = "MarkdownV2",
     HTML       = "HTML",
-    Markdown   = "Markdown"
+    Markdown   = "Markdown",
+    None       = ""
 }
