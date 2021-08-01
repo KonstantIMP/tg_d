@@ -27,4 +27,20 @@ mixin template CoreBotApi () {
 
         return result;
     }
+
+    /** 
+     * Use this method to log out from the cloud Bot API server before launching the bot locally
+     * Returns: True on success
+     */
+    public bool logOut () {
+        return execute("logOut").boolean();
+    }
+
+    /** 
+     * Use this method to close the bot instance before moving it from one local server to another.
+     * Returns: True on success
+     */
+    public bool close () {
+        return execute("close").boolean();
+    }
 }
