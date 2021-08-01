@@ -8,6 +8,7 @@ module tg.bot;
 /** Import used classes */
 import tg.core.exception, tg.core.type;
 import tg.type, tg.core.api;
+import tg.update.api;
 
 /** Import requests */
 import requests, std.conv : to;
@@ -49,6 +50,7 @@ class TelegramBot {
 
     /** Import API */
     mixin CoreBotApi;
+    mixin UpdateBotApi;
 
     /** 
      * Execute method of the API
