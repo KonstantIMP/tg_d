@@ -43,16 +43,6 @@ mixin template UpdateBotApi () {
         }
 
         TelegramVariant variantResult = execute!(TelegramVariant)("getUpdates", request);
-        TelegramUpdate [] result = new TelegramUpdate[0];
-
-        foreach (update; variantResult.getAsJson().array()) {
-            result.length += 1; result [$ - 1] = new TelegramUpdate(update);
-            debug {
-                import std.stdio;
-                writeln(update);
-            }
-        }
-
-        return result;
+        return toTelegram!(TelegramUpdate)(variantResult.getAsJson());
     }
 }

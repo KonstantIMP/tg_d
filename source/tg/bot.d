@@ -6,7 +6,7 @@
 module tg.bot;
 
 /** Import used classes */
-import tg.core.exception, tg.core.type;
+import tg.core.exception, tg.core.type, tg.core.array;
 import tg.type, tg.core.api;
 import tg.update.api;
 
