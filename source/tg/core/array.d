@@ -5,10 +5,17 @@
  */
 module tg.core.array;
 
-import std.json, std.conv, tg.core.type, tg.type;
+/** Import needed libs */
+import std.json, tg.core.type, tg.type;
+import std.traits : isArray;
+import std.conv : to;
 
-import std.traits;
-
+/** 
+ * Convert JSON array to array from TelegramType
+ * Params:
+ *   source = JSON array to convert
+ * Returns: Array of T
+ */
 T [] toTelegram (T) (JSONValue source) {
     T [] result = new T[0];
 
@@ -19,6 +26,12 @@ T [] toTelegram (T) (JSONValue source) {
     return result;
 }
 
+/** 
+ * Convert JSON array to array of array from TelegramType
+ * Params:
+ *   source = JSON array of array to convert
+ * Returns: Array of array of T
+ */
 T [][] toTelegramMatrix (T) (JSONValue source) {
     T [][] result = new T[][0];
 
@@ -32,6 +45,12 @@ T [][] toTelegramMatrix (T) (JSONValue source) {
     return result;
 }
 
+/** 
+ * Convert JSON array to array from base types
+ * Params:
+ *   source = JSON array to convert
+ * Returns: Array of T
+ */
 T [] toBase (T) (JSONValue source) {
     T [] result = new T[0];
 
@@ -42,6 +61,12 @@ T [] toBase (T) (JSONValue source) {
     return result;
 }
 
+/** 
+ * Convert JSON array to array of array from Base types
+ * Params:
+ *   source = JSON array to convert
+ * Returns: Array of T
+ */
 T [][] toBaseMatrix (T) (JSONValue source) {
     T [][] result = new T[0][0];
 
@@ -55,6 +80,12 @@ T [][] toBaseMatrix (T) (JSONValue source) {
     return result;
 }
 
+/** 
+ * Convert array to JSON
+ * Params:
+ *   telegramType = Array from telegram types for convert
+ * Returns: JSON record with the array
+ */
 JSONValue getAsJson (T) (T [] telegramType) if ((isArray!T == false)) {
     JSONValue result = parseJSON("[]");
 
@@ -65,6 +96,12 @@ JSONValue getAsJson (T) (T [] telegramType) if ((isArray!T == false)) {
     return result;
 }
 
+/** 
+ * Convert array of array to JSON
+ * Params:
+ *   telegramType = Array of array from telegram types for convert
+ * Returns: JSON record with the array of array
+ */
 JSONValue getAsJson (T) (T [][] telegramType) {
     JSONValue result = parseJSON("[]");
 
