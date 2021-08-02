@@ -6,8 +6,6 @@ module tg.types.telegram_input_file;
 import tg.core.type, tg.core.exception;
 import std.json, tg.type;
 
-import std.file, std.conv;
-
 /** 
  * Supported file types for sending
  */
@@ -62,7 +60,7 @@ class TelegramInputFile : TelegramVariant {
      * Returns: TelegramInput file with local file
      */
     public static TelegramInputFile createFromFile (string filePath) {
-        JSONValue data = parseJSON(""); data["file"] = to!string(read(filePath));
+        JSONValue data = parseJSON(""); data["file"] = filePath;
 
         TelegramInputFile result = new TelegramInputFile(data["file"], InputFileType.LocalFile);
         return result;

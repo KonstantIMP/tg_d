@@ -12,6 +12,7 @@ import tg.update.api;
 
 /** Import requests */
 import requests, std.conv : to;
+import std.stdio : File;
 
 /** Import JSON lib */
 import std.json;
@@ -49,6 +50,24 @@ class TelegramBot {
         return response["result"];
     }
 
+    /** 
+     * Execute method of the API as multipart/form-data (for file sending)
+     * Params:
+     *   method = Method to be executed
+     *   request = Data for sending to the server
+     * Returns: JSON record with server`s response
+     * Throws: TelegramException if the server returns an error
+     */
+    public JSONValue execute (string method, MultipartForm request) {
+        string methodUrl = botAddr ~ "/bot" ~ botApi ~ '/' ~ method;
+        JSONValue response = parseJSON(to!string(botRq.post(methodUrl, request).responseBody()));
+        
+        if ("ok" !in response) throw new TelegramException ("Incorrect server`s response : can not find \'ok\' and \'result\' entries");
+        if (response["ok"].boolean == false) throw new TelegramException ("Request error : " ~ response["description"].str());
+
+        return response["result"];
+    }
+
     /** Import API */
     mixin CoreBotApi;
     mixin UpdateBotApi;
@@ -62,6 +81,18 @@ class TelegramBot {
      * Throws: TelegramException if the server returns an error or could not vonert to T
      */
     public T execute (T) (string method, JSONValue request = parseJSON("")) {
+        return new T(execute(method, request));
+    }
+
+    /** 
+     * Execute method of the API as multipart/form-data (for file sending)
+     * Params:
+     *   method = Method to be executed
+     *   request = Data for sending to the server
+     * Returns: Specific telegram type with server`s response
+     * Throws: TelegramException if the server returns an error or could not vonert to T
+     */
+    public T execute (T) (string method, MultipartForm request) {
         return new T(execute(method, request));
     }
 
