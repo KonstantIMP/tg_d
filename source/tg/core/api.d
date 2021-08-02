@@ -201,4 +201,26 @@ mixin template CoreBotApi () {
             return execute!TelegramMessage("sendPhoto", request);
         }
     }
+
+    /** 
+     * Use this method to get a list of profile pictures for a user
+     * Params:
+     *   id = Unique identifier of the target user
+     *   offset = Sequential number of the first photo to be returned
+     *   limit = Limits the number of photos to be retrieved
+     * Returns: Returns a UserProfilePhotos object.
+     */
+    public TelegramUserProfilePhotos getUserProfilePhotos (ulong id,
+                                                           ulong offset = 0,
+                                                           ulong limit = 100) {
+        JSONValue request = parseJSON("");
+
+        if (limit > 100 || limit < 1) throw new TelegramException("Incorrect \'limit\' : shoud be from 1 to 100");
+
+        request["user_id"] = id;
+        if (offset) request["offset"] = offset;
+        request["limit"] = limit;
+
+        return execute!TelegramUserProfilePhotos("getUserProfilePhotos", request);
+    }
 }
