@@ -44,7 +44,20 @@ mixin template CoreBotApi () {
         return execute("close").boolean();
     }
 
-
+    /** 
+     * Use this method to send text messages
+     * Params:
+     *   chat = Unique identifier for the target chat or username of the target channel
+     *   text = Text of the message to be sent
+     *   parse = Mode for parsing entities in the message text
+     *   entities = List of special entities that appear in message text, which can be specified instead of parse_mode
+     *   disableWebPagePreview = Disables link previews for links in this message
+     *   disableNotification = Sends the message silently.
+     *   replyToMessageId = If the message is a reply, ID of the original message
+     *   allowSendingWithoutReply = Pass True, if the message should be sent even if the specified replied-to message is not found
+     *   replyMarkup = Additional interface options
+     * Returns: On success, the sent Message is returned
+     */
     public TelegramMessage sendMessage (T, U)  (T chat,
                                                 string text,
                                                 TextFormat parse = TextFormat.None,

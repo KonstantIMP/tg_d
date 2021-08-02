@@ -86,6 +86,7 @@ public import tg.types.telegram_input_media_audio;
 public import tg.types.telegram_input_media_document;
 public import tg.types.telegram_voice_chat_started;
 public import tg.types.telegram_login_url;
+public import tg.types.telegram_input_file;
 
 public import tg.payment.types.telegram_labeled_price;
 public import tg.payment.types.telegram_invoice;
@@ -129,5 +130,4 @@ public import tg.game.types.telegram_callback_game;
 
 alias TelegramChatMember = TelegramVariant;
 alias TelegramInputMessageContent = TelegramVariant;
-alias TelegramInputFile = TelegramVariant;
 
