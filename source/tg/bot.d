@@ -7,7 +7,7 @@ module tg.bot;
 
 /** Import used classes */
 import tg.core.exception, tg.core.type, tg.core.array, tg.core.format;
-import tg.type, tg.core.api;
+import tg.type, tg.core.api, tg.passport.api;
 import tg.update.api;
 
 /** Import requests */
@@ -71,6 +71,7 @@ class TelegramBot {
     /** Import API */
     mixin CoreBotApi;
     mixin UpdateBotApi;
+    mixin PassportBotApi;
 
     /** 
      * Execute method of the API

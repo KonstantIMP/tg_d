@@ -130,4 +130,4 @@ public import tg.game.types.telegram_callback_game;
 
 alias TelegramChatMember = TelegramVariant;
 alias TelegramInputMessageContent = TelegramVariant;
-
+alias TelegramPassportElementError = TelegramVariant;
