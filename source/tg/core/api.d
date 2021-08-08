@@ -167,39 +167,25 @@ mixin template CoreBotApi () {
                                              ulong replyToMessageId = 0,
                                              bool allowSendingWithoutReply = false,
                                              U replyMarkup = null) if ((is (T == ulong) || is (T == string)) && (is (U == TelegramInlineKeyboardMarkup) || is (U == TelegramReplyKeyboardMarkup) || is (U == TelegramReplyKeyboardRemove) || is (U == TelegramForceReply) || is (U == typeof(null)))) {
-        if (photo.type != InputFileType.LocalFile) {
-            JSONValue request = parseJSON("");
+        MultipartForm request;
 
-            request["chat_id"] = id;
-            request["photo"] = photo.getAsJson ();
-            if (caption != "") request["caption"] = caption;
-            if (parse != TextFormat.None) request["parse_mode"] = parse;
-            if (entities !is null) request["caption_entities"] = entities.getAsJson();
-            request["disable_notification"] = disableNotification;
-            if (replyToMessageId) request["reply_to_message_id"] = replyToMessageId;
-            request["allow_sending_without_reply"] = allowSendingWithoutReply;
-            if (replyMarkup !is null) request["reply_markup"] = replyMarkup.getAsJson();
-
-            return execute!TelegramMessage("sendPhoto", request);
-        }
-        else {
+        request.add(formData ("chat_id", to!string(id)));
+        
+        if (photo.type == InputFileType.LocalFile) { 
             import std.file : DirEntry;
             auto img = DirEntry(photo.getAsJson().str());
-
-            MultipartForm request;
-
-            request.add(formData ("chat_id", to!string(id)));
             request.add(formData ("photo", File(photo.getAsJson().str(), "rb"), ["filename":img.name, "Content-Type": "multipart/form-data"]));
-            if (caption != "") request.add(formData ("caption", caption));
-            if (parse != TextFormat.None) request.add(formData ("parse_mode", parse));
-            if (entities !is null) request.add(formData("caption_entities", entities.getAsJson().toString(), ["Content-Type": "application/json"]));
-            request.add(formData("disable_notification", to!string(disableNotification)));
-            if (replyToMessageId) request.add(formData("reply_to_message_id", to!string(replyToMessageId)));
-            request.add(formData("allow_sending_without_reply", to!string(allowSendingWithoutReply)));
-            if (replyMarkup !is null) request.add(formData("reply_markup", replyMarkup.getAsJson().toString(), ["Content-Type": "application/json"]));
+        } else request.add(formData("photo", photo.getAsJson.str(), ["Content-Type":"application/json"]));
 
-            return execute!TelegramMessage("sendPhoto", request);
-        }
+        if (caption != "") request.add(formData ("caption", caption));
+        if (parse != TextFormat.None) request.add(formData ("parse_mode", parse));
+        if (entities !is null) request.add(formData("caption_entities", entities.getAsJson().toString(), ["Content-Type": "application/json"]));
+        request.add(formData("disable_notification", to!string(disableNotification)));
+        if (replyToMessageId) request.add(formData("reply_to_message_id", to!string(replyToMessageId)));
+        request.add(formData("allow_sending_without_reply", to!string(allowSendingWithoutReply)));
+        if (replyMarkup !is null) request.add(formData("reply_markup", replyMarkup.getAsJson().toString(), ["Content-Type": "application/json"]));
+
+        return execute!TelegramMessage("sendPhoto", request);
     }
 
     /** 
