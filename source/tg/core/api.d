@@ -223,4 +223,56 @@ mixin template CoreBotApi () {
 
         return execute!TelegramFile("getFile", request);
     }
+
+    /** 
+     * Use this method to change the list of the bot's commands
+     * Params:
+     *   commands = A JSON-serialized list of bot commands to be set as the list of the bot's commands
+     *   botScope = A JSON-serialized object, describing scope of users for which the commands are relevant
+     *   lang = A two-letter ISO 639-1 language code
+     * Returns: Returns True on success
+     */
+    public bool setMyCommands (TelegramBotCommand [] commands,
+                               TelegramBotCommandScope botScope = null,
+                               string lang = "") {
+        JSONValue request = parseJSON("");
+
+        request["commands"] = commands.getAsJson();
+        if (botScope !is null) request["scope"] = botScope.getAsJson();
+        if (lang.length == 2) request["language_code"] = lang;
+
+        return execute("setMyCommands", request).boolean();
+    }
+
+    /** 
+     * Use this method to delete the list of the bot's commands for the given scope and user language
+     * Params:
+     *   botScope = A JSON-serialized object, describing scope of users for which the commands are relevant
+     *   lang = A two-letter ISO 639-1 language code
+     * Returns:  Returns True on success
+     */
+    public bool deleteMyCommands (TelegramBotCommandScope botScope = null, string lang = "") {
+        JSONValue request = parseJSON("");
+
+        if (botScope !is null) request["scope"] = botScope.getAsJson();
+        if (lang.length == 2) request["language_code"] = lang;
+
+        return execute("deleteMyCommands", request).boolean();
+    }
+
+    /** 
+     * Use this method to get the current list of the bot's commands for the given scope and user language
+     * Params:
+     *   botScope = A JSON-serialized object, describing scope of users.
+     *   lang = A two-letter ISO 639-1 language code or an empty string
+     * Returns: Returns Array of BotCommand on success
+     */
+    public TelegramBotCommand [] getMyCommands (TelegramBotCommandScope botScope = null, string lang = "") {
+        JSONValue request = parseJSON("");
+
+        if (botScope !is null) request["scope"] = botScope.getAsJson();
+        if (lang.length == 2) request["language_code"] = lang;
+
+        return toTelegram!TelegramBotCommand(execute("getMyCommands", request));
+    }
 }
