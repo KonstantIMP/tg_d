@@ -45,6 +45,7 @@ public import tg.types.telegram_poll_answer;
 public import tg.types.telegram_poll;
 public import tg.types.telegram_location;
 public import tg.types.telegram_venue;
+public import tg.types.telegram_file;
 public import tg.types.telegram_proximity_alert_triggered;
 public import tg.types.telegram_message_auto_delete_timer_changed;
 public import tg.types.telegram_voice_chat_scheduled;
