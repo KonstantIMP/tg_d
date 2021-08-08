@@ -11,5 +11,6 @@
 	],
 	"description": "A library for creating Telegram bots",
 	"license": "proprietary",
+	"targetType": "library",
 	"name": "tg_d"
 }
