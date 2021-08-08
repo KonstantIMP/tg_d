@@ -209,4 +209,18 @@ mixin template CoreBotApi () {
 
         return execute!TelegramUserProfilePhotos("getUserProfilePhotos", request);
     }
+
+    /**
+     * Use this method to get basic info about a file and prepare it for downloading
+     * Params:
+     *   id = File identifier to get info about
+     * Returns: On success, a File object is returned
+     */
+    public TelegramFile getFile (string id) {
+        JSONValue request = parseJSON("");
+
+        request["file_id"] = id;
+
+        return execute!TelegramFile("getFile", request);
+    }
 }
