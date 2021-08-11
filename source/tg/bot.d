@@ -99,6 +99,16 @@ class TelegramBot {
     }
 
     /** 
+     * Download file
+     * Params:
+     *   file = File for downloading
+     * Returns: Downloaded file as bytes array
+     */
+    public ubyte [] downloadFile (TelegramFile file) {
+        return getContent(address ~ "/file/bot" ~ api ~ '/' ~ file.filePath()).data;
+    }
+
+    /** 
      * Unique bot`s api key for getting access
      */
     private string botApi;
