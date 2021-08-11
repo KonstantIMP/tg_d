@@ -6,12 +6,16 @@
 	"dependencies": {
 		"requests": "~>2.0.0"
 	},
+	"description": "A library for creating Telegram bots",
 	"importPaths": [
 		"source/"
 	],
-	"description": "A library for creating Telegram bots",
 	"license": "proprietary",
-	"targetType": "library",
-	"versions": ["0.0.1"],
-	"name": "tg_d"
+	"name": "tg_d",
+	"sourcePaths": [
+		"source/"
+	],
+	"targetType": "dynamicLibrary",
+    "targetName": "tg_d",
+	"version": "0.0.1"
 }
