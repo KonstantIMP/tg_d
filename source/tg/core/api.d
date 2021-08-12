@@ -225,6 +225,32 @@ mixin template CoreBotApi () {
     }
 
     /** 
+     * Use this method to send answers to callback queries sent from inline keyboards
+     * Params:
+     *   id = Unique identifier for the query to be answered
+     *   text = Text of the notification
+     *   showAlert = If true, an alert will be shown by the client instead of a notification at the top of the chat screen
+     *   url = URL that will be opened by the user's client
+     *   time = The maximum amount of time in seconds that the result of the callback query may be cached client-side
+     * Returns: On success, True is returned.
+     */
+    public bool answerCallbackQuery (string id,
+                                     string text = "",
+                                     bool showAlert = false,
+                                     string url = "",
+                                     ulong time = 0) {
+        JSONValue request = parseJSON("{}");
+
+        request["callback_query_id"] = id;
+        if (text.length) request["text"] = text;
+        request["show_alert"] = showAlert;
+        if (url.length) request["url"] = url;
+        request["cache_time"] = time;
+
+        return execute("answerCallbackQuery", request).boolean();
+    }
+
+    /** 
      * Use this method to change the list of the bot's commands
      * Params:
      *   commands = A JSON-serialized list of bot commands to be set as the list of the bot's commands
