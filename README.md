@@ -47,3 +47,7 @@ Every telegram type has 2 method for simple data sending/recieving
 ## Generating types implementation
 
 You can regenerate types by this [repo](https://gitlab.com/KonstantIMP/t_api_to_d)
+
+## Bots written by tg_d
+
+* [StickBot](https://github.com/KonstantIMP/stickbot)
