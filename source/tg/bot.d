@@ -17,6 +17,9 @@ import std.stdio : File;
 /** Import JSON lib */
 import std.json;
 
+/** Import signals lib */
+import std.signals;
+
 /** 
  * Implements Bot`s api methods
  */
@@ -109,6 +112,35 @@ class TelegramBot {
     }
 
     /** 
+     * Start loop for getting and processing updates
+     * Params:
+     *   delay = Delay between updates
+     */
+    public void loop (ulong delay = 500) {
+        ulong updateOffset = 0;
+
+        while (true) {
+            auto updates = getUpdates (updateOffset);
+
+            foreach (u; updates) {
+                if (u.message !is null) emit(this, u.message);
+                if (u.editedMessage !is null) emit(this, u.editedMessage);
+                if (u.channelPost !is null) emit(this, u.channelPost);
+                if (u.editedChannelPost !is null) emit(this, u.editedChannelPost);
+                if (u.inlineQuery !is null) emit(this, u.inlineQuery);
+                if (u.chosenInlineResult !is null) emit(this, u.chosenInlineResult);
+                if (u.callbackQuery !is null) emit(this, u.callbackQuery);
+                if (u.shippingQuery !is null) emit(this, u.shippingQuery);
+                if (u.preCheckoutQuery !is null) emit(this, u.preCheckoutQuery);
+                if (u.poll !is null) emit(this, u.poll);
+                if (u.pollAnswer !is null) emit(this, u.pollAnswer);
+                if (u.myChatMember !is null) emit(this, u.myChatMember);
+                if (u.chatMember !is null) emit(this, u.chatMember);
+            }
+        }
+    }
+
+    /** 
      * Unique bot`s api key for getting access
      */
     private string botApi;
@@ -139,4 +171,15 @@ class TelegramBot {
      * Returns: Current bot
      */
     @property TelegramUser bot () { return me; }
+
+    /** Supported signals for the loop emiting */
+    mixin Signal!(TelegramBot, TelegramMessage) messageUpdate;
+    mixin Signal!(TelegramBot, TelegramInlineQuery) inlineUpdate;
+    mixin Signal!(TelegramBot, TelegramChosenInlineResult) inlineResultUpdate;
+    mixin Signal!(TelegramBot, TelegramCallbackQuery) callbackUpdate;
+    mixin Signal!(TelegramBot, TelegramShippingQuery) shippingUpdate;
+    mixin Signal!(TelegramBot, TelegramPreCheckoutQuery) preCheckoutUpdate;
+    mixin Signal!(TelegramBot, TelegramPoll) pollUpdate;
+    mixin Signal!(TelegramBot, TelegramPollAnswer) pollAnswerUpdate;
+    mixin Signal!(TelegramBot, TelegramChatMemberUpdated) memberUpdate;
 }

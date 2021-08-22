@@ -14,8 +14,8 @@ A DLang library for creating telegram bots
 - [ ] Webhook support
 - [ ] Full methods implementation
 - [ ] Write more examples
-- [ ] Updates checking loop
-- [ ] Signals for updtaes processing
+- [*] Updates checking loop
+- [*] Signals for updtaes processing
 
 ## The basics
 
