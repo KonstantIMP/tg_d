@@ -17,5 +17,5 @@
 	],
 	"targetType": "dynamicLibrary",
     "targetName": "tg_d",
-	"version": "0.0.1"
+	"version": "0.0.2"
 }
