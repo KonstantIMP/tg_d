@@ -20,6 +20,9 @@ import std.json;
 /** Import signals lib */
 import std.signals;
 
+/** Import Sleep */
+import core.thread;
+
 /** 
  * Implements Bot`s api methods
  */
@@ -136,7 +139,10 @@ class TelegramBot {
                 if (u.pollAnswer !is null) emit(this, u.pollAnswer);
                 if (u.myChatMember !is null) emit(this, u.myChatMember);
                 if (u.chatMember !is null) emit(this, u.chatMember);
+            
+                updateOffset = u.updateId + 1;
             }
+            Thread.sleep(delay.msecs);
         }
     }
 
