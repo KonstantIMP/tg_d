@@ -225,6 +225,78 @@ mixin template CoreBotApi () {
     }
 
     /** 
+     * Use this method for your bot to leave a group, supergroup or channel
+     * Params:
+     *   id = Unique identifier for the target chat or username of the target channel (
+     * Returns: Returns True on success
+     */
+    public bool leaveChat (T) (T id) if (is (T == string) || is (T == ulong)) {
+        JSONValue request = parseJSON("");
+
+        request["chat_id"] = id;
+
+        return execute("leaveChat", request).boolean;
+    }
+
+    /** 
+     * Use this method to get up to date information about the chat
+     * Params:
+     *   id = Unique identifier for the target chat or username of the target supergroup or channel
+     * Returns: Returns a Chat object on success
+     */
+    public TelegramChat getChat (T) (T id) if (is (T == string) || is (T == ulong)) {
+        JSONValue request = parseJSON("");
+
+        request["chat_id"] = id;
+
+        return execute!TelegramChat("getChat", request);
+    }
+
+    /** 
+     * Use this method to get a list of administrators in a chat.
+     * Params:
+     *   id = Unique identifier for the target chat or username of the target supergroup or channel
+     * Returns: n success, returns an Array of ChatMember objects that contains information about all chat administrators except other bots
+     */
+    public TelegramChatMember [] getChatAdministrators (T) (T id) if (is (T == string) || is (T == ulong)) {
+        JSONValue request = parseJSON("");
+
+        request["chat_id"] = id;
+
+        return toTelegram!(TelegramChatMember)(execute("getChatMemberCount", request));
+    }
+
+    /** 
+     * Use this method to get the number of members in a chat.
+     * Params:
+     *   id = Unique identifier for the target chat or username of the target supergroup or channel
+     * Returns:  Returns Int on success.
+     */
+    public ulong getChatMemberCount (T) (T id) if (is (T == string) || is (T == ulong)) {
+        JSONValue request = parseJSON("");
+
+        request["chat_id"] = id;
+
+        return execute("getChatMemberCount", request).integer();
+    }
+
+    /** 
+     * Use this method to get information about a member of a chat
+     * Params:
+     *   chatId = Unique identifier for the target chat or username of the target supergroup or channel
+     *   userId = Unique identifier of the target user
+     * Returns: Returns a ChatMember object on success
+     */
+    public TelegramChatMember getChatMember (T) (T chatId, ulong userId) if (is (T == string) || is (T == ulong)) {
+        JSONValue request = parseJSON("");
+
+        request["chat_id"] = chatId;
+        request["user_id"] = userId;
+
+        return execute!TelegramChatMember("getChatMember", request);
+    }
+
+    /** 
      * Use this method to set a new group sticker set for a supergroup.
      * Params:
      *   id = Unique identifier for the target chat or username of the target supergroup
