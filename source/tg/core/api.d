@@ -225,6 +225,22 @@ mixin template CoreBotApi () {
     }
 
     /** 
+     * Use this method to set a new group sticker set for a supergroup.
+     * Params:
+     *   id = Unique identifier for the target chat or username of the target supergroup
+     *   name = Name of the sticker set to be set as the group sticker set
+     * Returns: True on success
+     */
+    public bool setChatStickerSet (T) (T id, string name) if (is (T == string) || is (T == ulong)) {
+        JSONValue request = parseJSON("");
+
+        request["chat_id"] = id;
+        request["sticker_set_name"] = name;
+
+        return execute("setChatStickerSet", request).boolean();
+    }
+
+    /** 
      * Use this method to delete a group sticker set from a supergroup
      * Params:
      *   id = Unique identifier for the target chat or username of the target supergroup
