@@ -225,6 +225,54 @@ mixin template CoreBotApi () {
     }
 
     /** 
+     * Use this method to add a message to the list of pinned messages in a chat
+     * Params:
+     *   chatId = Unique identifier for the target chat or username of the target channel
+     *   msgId = Identifier of a message to pin
+     *   disbaleNotification = Pass True, if it is not necessary to send a notification to all chat members about the new pinned message
+     * Returns: Returns True on success
+     */
+    public bool pinChatMessage (T) (T chatId, ulong msgId, bool disbaleNotification) if (is (T == string) || is (T == ulong)) {
+        JSONValue request = parseJSON("");
+
+        request["chat_id"] = chatId;
+        request["message_id"] = msgId;
+        request["disable_notification"] = disbaleNotification;
+
+        return execute("pinChatMessage", request).boolean();
+    }
+
+    /** 
+     * Use this method to remove a message from the list of pinned messages in a chat
+     * Params:
+     *   chatId = Unique identifier for the target chat or username of the target channel
+     *   msgId = Identifier of a message to unpin
+     * Returns: Returns True on success
+     */
+    public bool unpinChatMessage (T) (T chatId, ulong msgId) if (is (T == string) || is (T == ulong)) {
+        JSONValue request = parseJSON("");
+
+        request["chat_id"] = chatId;
+        request["message_id"] = msgId;
+
+        return execute("unpinChatMessage", request).boolean();
+    }
+
+    /** 
+     * Use this method to clear the list of pinned messages in a chat.
+     * Params:
+     *   id = Unique identifier for the target chat or username of the target channel
+     * Returns: Returns True on success
+     */
+    public bool unpinAllChatMessages (T) (T id) if (is (T == string) || is (T == ulong)) {
+        JSONValue request = parseJSON("");
+
+        request["chat_id"] = id;
+
+        return execute("unpinAllChatMessages", request).boolean();
+    }
+
+    /** 
      * Use this method for your bot to leave a group, supergroup or channel
      * Params:
      *   id = Unique identifier for the target chat or username of the target channel (
@@ -235,7 +283,7 @@ mixin template CoreBotApi () {
 
         request["chat_id"] = id;
 
-        return execute("leaveChat", request).boolean;
+        return execute("leaveChat", request).boolean();
     }
 
     /** 
