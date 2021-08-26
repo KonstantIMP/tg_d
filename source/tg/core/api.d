@@ -225,6 +225,20 @@ mixin template CoreBotApi () {
     }
 
     /** 
+     * Use this method to delete a group sticker set from a supergroup
+     * Params:
+     *   id = Unique identifier for the target chat or username of the target supergroup
+     * Returns: True on success
+     */
+    public bool deleteChatStickerSet (T) (T id) if (is (T == string) || is (T == ulong)) {
+        JSONValue request = parseJSON("");
+
+        request["chat_id"] = id;
+
+        return execute("deleteChatStickerSet", request).boolean();
+    }
+
+    /** 
      * Use this method to send answers to callback queries sent from inline keyboards
      * Params:
      *   id = Unique identifier for the query to be answered
