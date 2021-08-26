@@ -113,7 +113,7 @@ mixin template StickerBotApi () {
         request.add(formData ("name", name));
         request.add(formData ("title", title));
 
-        if (png is null || tgs is null) throw new TelegramException ("You should send tgs or png sticker");
+        if (png is null && tgs is null) throw new TelegramException ("You should send tgs or png sticker");
         if (png !is null) {
             if (png.type == InputFileType.LocalFile) {
                 import std.file : DirEntry;
@@ -163,7 +163,7 @@ mixin template StickerBotApi () {
         request.add(formData ("user_id", to!string(id)));
         request.add(formData ("name", name));
 
-        if (png is null || tgs is null) throw new TelegramException ("You should send tgs or png sticker");
+        if (png is null && tgs is null) throw new TelegramException ("You should send tgs or png sticker");
         if (png !is null) {
             if (png.type == InputFileType.LocalFile) {
                 import std.file : DirEntry;
