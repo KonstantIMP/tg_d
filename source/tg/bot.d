@@ -27,6 +27,8 @@ import core.thread;
  * Implements Bot`s api methods
  */
 class TelegramBot {
+    private ulong lastOffset;
+
     /** 
      * Creates and init bot object
      * Params:
@@ -35,7 +37,7 @@ class TelegramBot {
      */
     public this (string botAPI, string addr = "https://api.telegram.org") {
         botApi = botAPI; botAddr = addr; botRq = Request ();
-        me = getMe();
+        me = getMe(); lastOffset = 0;
     }
 
     /** 
@@ -118,15 +120,14 @@ class TelegramBot {
      * Start loop for getting and processing updates
      * Params:
      *   delay = Delay between updates
-     *   offset = The latest update for getting
      */
-    public void loop (ulong delay = 500, ulong offset = 0) {
-        ulong updateOffset = offset;
-
+    public void loop (ulong delay = 500) {
         while (true) {
-            auto updates = getUpdates (updateOffset);
+            auto updates = getUpdates (lastOffset);
 
             foreach (u; updates) {
+                lastOffset = u.updateId + 1;
+
                 if (u.message !is null) emit(this, u.message);
                 if (u.editedMessage !is null) emit(this, u.editedMessage);
                 if (u.channelPost !is null) emit(this, u.channelPost);
@@ -140,8 +141,6 @@ class TelegramBot {
                 if (u.pollAnswer !is null) emit(this, u.pollAnswer);
                 if (u.myChatMember !is null) emit(this, u.myChatMember);
                 if (u.chatMember !is null) emit(this, u.chatMember);
-            
-                updateOffset = u.updateId + 1;
             }
             Thread.sleep(delay.msecs);
         }
