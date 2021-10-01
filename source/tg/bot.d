@@ -118,9 +118,10 @@ class TelegramBot {
      * Start loop for getting and processing updates
      * Params:
      *   delay = Delay between updates
+     *   offset = The latest update for getting
      */
-    public void loop (ulong delay = 500) {
-        ulong updateOffset = 0;
+    public void loop (ulong delay = 500, ulong offset = 0) {
+        ulong updateOffset = offset;
 
         while (true) {
             auto updates = getUpdates (updateOffset);
